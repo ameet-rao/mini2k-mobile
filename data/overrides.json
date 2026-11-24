@@ -1,0 +1,15 @@
+{
+  "_readme": "Judgment overrides applied AFTER the stat model. Keep this list tiny and always give a reason. delta is added to the generated value (clamped to 25-99; overall clamped to 45-99).",
+  "overrides": [
+    {
+      "name": "Draymond Green",
+      "delta": {"overall": 6, "perimeter_def": 12, "interior_def": 14, "passing": 6},
+      "reason": "Box score badly undersells his defense and playmaking (3 pts/g, but he anchors the defense and runs the offense). Judgment call, not stat-derived."
+    },
+    {
+      "name": "Matisse Thybulle",
+      "delta": {"overall": 6, "perimeter_def": 8},
+      "reason": "Elite 3&D wing whose value is mostly low-usage defense the box score undersells (2.9 stl/36 already, but EFF rates him like a bench scrub). Judgment call."
+    }
+  ]
+}

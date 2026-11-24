@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mini2K sprite viewer</title>
+<style>
+  body { margin: 0; background: #1b1d24; color: #dfe3ea; font: 13px/1.4 system-ui, sans-serif; }
+  header { padding: 8px 12px; background: #11131a; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; position: sticky; top: 0; z-index: 2; }
+  select, button, input { font: inherit; background: #262a35; color: #dfe3ea; border: 1px solid #3a4050; border-radius: 4px; padding: 3px 6px; }
+  canvas { image-rendering: pixelated; image-rendering: crisp-edges; display: block; }
+  main { padding: 12px; display: grid; gap: 14px; }
+  h2 { font-size: 13px; margin: 0 0 6px; color: #9aa3b5; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+  .row { display: flex; gap: 14px; align-items: flex-start; flex-wrap: wrap; }
+  #info { font-family: ui-monospace, monospace; color: #9aa3b5; }
+</style>
+</head>
+<body>
+<header>
+  <label>Character <select id="who"></select></label>
+  <label>Animation <select id="anim"></select></label>
+  <label>Kit <select id="kit"><option value="home">home</option><option value="away">away</option></select></label>
+  <label>Speed <select id="speed"><option>0.25</option><option>0.5</option><option selected>1</option><option>2</option></select></label>
+  <label>Zoom <select id="zoom"><option>1</option><option selected>4</option><option>8</option></select></label>
+  <button id="play">Pause</button><button id="prev">&lt; frame</button><button id="next">frame &gt;</button>
+  <label><input type="checkbox" id="grid"> grid</label>
+  <label><input type="checkbox" id="left"> face left</label>
+  <label>Sheet <select id="sheetMode"><option value="looks">all looks, this animation</option><option value="anims">all animations, this character</option></select></label>
+  <span id="info"></span>
+</header>
+<main>
+  <div class="row">
+    <div><h2>Preview</h2><canvas id="view"></canvas></div>
+    <div><h2>Frames</h2><canvas id="strip"></canvas></div>
+  </div>
+  <div><h2 id="sheetTitle">Side by side</h2><canvas id="sheet"></canvas></div>
+</main>
+<script type="module">
+import { CELL, AX, AY } from '../src/render/rig.js';
+import { ANIMS, ANIM_GROUPS, frameCount, frameAt } from '../src/render/anims.js';
+import { SpriteBank, kitFor, lookFor, REF_KIT, REF_APP } from '../src/render/sprites.js';
+import { makeLook } from '../src/render/rig.js';
+import { drawBall } from '../src/render/ball.js';
+
+const [pj, tj, appearance] = await Promise.all(['players', 'teams', 'appearance'].map((n) => fetch(`../data/${n}.json`).then((r) => r.json())));
+const players = pj.players, teams = tj.teams;
+const byId = Object.fromEntries(players.map((p) => [p.id, p]));
+const bank = new SpriteBank();
+const $ = (id) => document.getElementById(id);
+const q = new URLSearchParams(location.search);
+
+// characters: 16 stars + generic G/F/C per kit + referee
+const chars = [];
+for (const id of Object.keys(appearance.stars)) { const p = byId[id]; if (p) chars.push({ label: `${p.team} ${p.name} #${p.number}`, player: p }); }
+for (const [pos, lab] of [['PG', 'Generic guard'], ['SF', 'Generic forward'], ['C', 'Generic center']]) chars.push({ label: lab, player: { id: `generic-${pos}`, team: 'BOS', pos, number: pos === 'PG' ? 12 : pos === 'SF' ? 30 : 44 }, generic: true });
+chars.push({ label: 'Referee', ref: true });
+const lookOf = (c, kit) => c.ref ? makeLook(REF_APP, REF_KIT, '') : lookFor(c.player, appearance, kitFor(c.player.team, kit === 'home', teams));
+
+chars.forEach((c, i) => $('who').add(new Option(c.label, i)));
+for (const [g, names] of Object.entries(ANIM_GROUPS)) { const og = document.createElement('optgroup'); og.label = g; names.forEach((n) => og.append(new Option(n, n))); $('anim').append(og); }
+if (q.get('anim')) $('anim').value = q.get('anim');
+if (q.get('who')) $('who').value = q.get('who');
+if (q.get('zoom')) $('zoom').value = q.get('zoom');
+if (q.get('sheet')) $('sheetMode').value = q.get('sheet');
+if (q.get('kit')) $('kit').value = q.get('kit');
+if (q.get('shot')) document.querySelector('header').style.position = 'static';
+
+let t = 0, playing = !q.get('frame'), last = performance.now();
+if (q.get('frame')) t = Number(q.get('frame'));
+const FLOOR = '#c98f52', FLOOR2 = '#bb8348';
+
+function drawCell(ctx, look, animName, idx, x, y, left) {
+  const f = bank.frameIdx(look, animName, idx, left);
+  // shadow
+  ctx.fillStyle = 'rgba(0,0,0,.28)';
+  ctx.fillRect(x - 9, y, 18, 2); ctx.fillRect(x - 7, y - 1, 14, 1); ctx.fillRect(x - 7, y + 2, 14, 1);
+  bank.draw(ctx, f, x, y);
+  const anim = ANIMS[animName];
+  if (f.ball) {
+    let bx, by;
+    if (f.ball === 'drib') {
+      const n = frameCount(anim), ph = idx / n;
+      const a = bank.anchor(f, 'F');
+      const k = Math.abs(Math.sin(ph * Math.PI * (anim.dur > 0.5 && !anim.loop ? 4 : 1) * 1));
+      bx = x + a[0] + f.dir * 2; by = y + a[1] + 3 + ( -4 - (a[1] + 3)) * (1 - k);
+    } else { const a = bank.anchor(f, f.ball); bx = x + a[0] + f.dir * (f.ball === '2' ? 0 : 1); by = y + a[1] + (f.ball === '2' ? 0 : -1); }
+    drawBall(ctx, bx, by, idx);
+  }
+  return f;
+}
+
+function render() {
+  const c = chars[$('who').value], animName = $('anim').value, anim = ANIMS[animName];
+  const look = lookOf(c, $('kit').value), z = Number($('zoom').value), left = $('left').checked;
+  const n = frameCount(anim), idx = playing ? frameAt(anim, t) : Math.max(0, Math.min(n - 1, Math.round(t)));
+  // preview
+  const v = $('view'); v.width = CELL; v.height = CELL; v.style.width = CELL * z + 'px'; v.style.height = CELL * z + 'px';
+  const vx = v.getContext('2d');
+  vx.fillStyle = FLOOR; vx.fillRect(0, 0, CELL, CELL); vx.fillStyle = FLOOR2; vx.fillRect(0, AY + 4, CELL, CELL);
+  if ($('grid').checked) { vx.fillStyle = 'rgba(0,0,0,.12)'; for (let i = 0; i < CELL; i += 8) { vx.fillRect(i, 0, 1, CELL); vx.fillRect(0, i, CELL, 1); } vx.fillStyle = 'rgba(255,0,0,.5)'; vx.fillRect(AX, 0, 1, CELL); vx.fillRect(0, AY, CELL, 1); }
+  drawCell(vx, look, animName, idx, AX, AY, left);
+  // strip of all frames
+  const s = $('strip'), cw = 64; s.width = cw * n; s.height = CELL; const sz = Math.min(z, 3); s.style.width = cw * n * sz + 'px'; s.style.height = CELL * sz + 'px';
+  const sx = s.getContext('2d'); sx.fillStyle = FLOOR; sx.fillRect(0, 0, s.width, CELL);
+  for (let i = 0; i < n; i++) { if (i === idx) { sx.fillStyle = 'rgba(255,255,255,.18)'; sx.fillRect(i * cw, 0, cw, CELL); } drawCell(sx, look, animName, i, i * cw + cw / 2, AY, left); }
+  $('info').textContent = `${animName}  frame ${idx + 1}/${n}  dur ${anim.dur}s ${anim.loop ? 'loop' : 'one-shot'}  baked ${bank.baked}`;
+  // sheet
+  const sh = $('sheet'), shx = sh.getContext('2d');
+  if ($('sheetMode').value === 'looks') {
+    $('sheetTitle').textContent = `All ${chars.length} looks: ${animName}`;
+    const cw2 = 50, perRow = 10, rows = Math.ceil(chars.length / perRow);
+    sh.width = cw2 * perRow; sh.height = rows * 2 * 92; sh.style.width = sh.width * 3 + 'px'; sh.style.height = sh.height * 3 + 'px';
+    shx.fillStyle = FLOOR; shx.fillRect(0, 0, sh.width, sh.height);
+    chars.forEach((ch, i) => {
+      const col = i % perRow, row = Math.floor(i / perRow);
+      for (const [ki, kit] of ['home', 'away'].entries()) drawCell(shx, lookOf(ch, kit), animName, idx, col * cw2 + cw2 / 2, (row * 2 + ki) * 92 + 84, left);
+    });
+  } else {
+    const names = Object.values(ANIM_GROUPS).flat();
+    $('sheetTitle').textContent = `All ${names.length} animations: ${c.label}`;
+    const cw2 = 64, perRow = 12, rows = Math.ceil(names.length / perRow), rh = 104;
+    sh.width = cw2 * perRow; sh.height = rows * rh; sh.style.width = sh.width * 2 + 'px'; sh.style.height = sh.height * 2 + 'px';
+    shx.fillStyle = FLOOR; shx.fillRect(0, 0, sh.width, sh.height);
+    shx.font = '7px monospace'; shx.textAlign = 'center';
+    names.forEach((nm, i) => {
+      const a = ANIMS[nm], col = i % perRow, row = Math.floor(i / perRow);
+      const fi = playing ? frameAt(a, a.loop ? t : t % (a.dur + 0.5)) : Math.min(frameCount(a) - 1, Math.round(q.get('frac') != null ? Number(q.get('frac')) * (frameCount(a) - 1) : t));
+      drawCell(shx, look, nm, fi, col * cw2 + cw2 / 2, row * rh + 90, left);
+      shx.fillStyle = '#2a1c10'; shx.fillText(nm, col * cw2 + cw2 / 2, row * rh + 101);
+    });
+  }
+}
+
+function loop(now) {
+  const dt = Math.min(0.1, (now - last) / 1000); last = now;
+  const anim = ANIMS[$('anim').value];
+  if (playing) { t += dt * Number($('speed').value); if (!anim.loop && $('sheetMode').value === 'looks' && t > anim.dur + 0.5) t = 0; }
+  render();
+  requestAnimationFrame(loop);
+}
+$('play').onclick = () => { playing = !playing; $('play').textContent = playing ? 'Pause' : 'Play'; if (!playing) t = frameAt(ANIMS[$('anim').value], t); else t = 0; };
+const step = (d) => { if (playing) $('play').onclick(); const n = frameCount(ANIMS[$('anim').value]); t = ((Math.round(t) + d) % n + n) % n; };
+$('prev').onclick = () => step(-1); $('next').onclick = () => step(1);
+$('anim').onchange = () => { t = 0; };
+window.__viewer = { bank, ready: true };
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

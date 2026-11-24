@@ -1,0 +1,71 @@
+# Heights (inches) from the basketball-reference.com 2026-27 roster tables of the four original teams, read 2026-11-14.
+Tyrese Maxey,74
+Anfernee Simons,75
+Kentavious Caldwell-Pope,77
+Jaylen Brown,78
+VJ Edgecombe,76
+Joel Embiid,84
+Dean Wade,81
+LeBron James,81
+Jabari Walker,79
+Adem Bona,82
+Labaron Philon Jr.,76
+Justin Edwards,79
+Rayan Rupert,79
+Caleb Love,75
+Tacko Fall,90
+Ariel Hukporti,84
+Dominick Barlow,81
+Payton Pritchard,73
+Derrick White,76
+Neemias Queta,84
+Sam Hauser,79
+Luka Garza,82
+Baylor Scheierman,78
+Jordan Walsh,78
+Hugo González,78
+Jayson Tatum,80
+Mitchell Robinson,84
+Paul George,80
+Ron Harper Jr.,77
+Mike Conley,73
+Chris Cenac Jr.,83
+Dillon Mitchell,80
+Amari Williams,83
+Devin Carter,74
+Walker Kessler,86
+Sandro Mamukelashvili,81
+Matisse Thybulle,77
+Austin Reaves,77
+Collin Sexton,75
+Jake LaRavia,79
+Luka Dončić,80
+Quentin Grimes,77
+Ziaire Williams,81
+Jarred Vanderbilt,80
+Jaden Hardy,75
+Bronny James,74
+Kevon Looney,81
+Cameron Carr,77
+Adou Thiero,79
+Chris Mañon,76
+Nick Smith Jr.,74
+Arthur Kaluma,79
+Yaxel Lendeborg,81
+De'Anthony Melton,74
+Georges Niang,78
+Will Richard,75
+Stephen Curry,74
+Brandin Podziemski,76
+Brandon Williams,73
+Charles Bassey,82
+Gary Payton II,74
+Al Horford,80
+Draymond Green,78
+Gui Santos,79
+Graham Ike,81
+LJ Cryer,72
+Malevy Leons,81
+Kristaps Porziņģis,86
+Jimmy Butler,78
+Moses Moody,77

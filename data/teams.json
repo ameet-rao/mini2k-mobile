@@ -1,0 +1,1206 @@
+{
+ "meta": {
+  "season": "2026-27",
+  "as_of": "2026-11-10",
+  "scale": "0-99",
+  "model": "shrinkage-v1",
+  "prev_weight": 0.6,
+  "note": "Ratings are generated from box-score stats; see docs/RATINGS.md. Defense/speed/handle/strength/athleticism are proxies."
+ },
+ "teams": {
+  "PHI": {
+   "id": "PHI",
+   "name": "Philadelphia 76ers",
+   "city": "Philadelphia",
+   "nickname": "76ers",
+   "colors": [
+    "#006BB6",
+    "#ED174C"
+   ],
+   "roster_size": 21,
+   "games_played": 11,
+   "default_starters": [
+    "phi-tyrese-maxey",
+    "phi-jaylen-brown",
+    "phi-vj-edgecombe",
+    "phi-joel-embiid",
+    "phi-lebron-james"
+   ],
+   "depth_order": [
+    "phi-tyrese-maxey",
+    "phi-jaylen-brown",
+    "phi-vj-edgecombe",
+    "phi-joel-embiid",
+    "phi-lebron-james",
+    "phi-dean-wade",
+    "phi-anfernee-simons",
+    "phi-kentavious-caldwell-pope",
+    "phi-adem-bona",
+    "phi-jabari-walker",
+    "phi-labaron-philon-jr",
+    "phi-tacko-fall",
+    "phi-justin-edwards",
+    "phi-rayan-rupert",
+    "phi-caleb-love",
+    "phi-dominick-barlow",
+    "phi-ariel-hukporti",
+    "phi-jameer-nelson-jr",
+    "phi-saint-thomas",
+    "phi-duke-miles",
+    "phi-dillon-jones"
+   ],
+   "team_overall": 74.8
+  },
+  "BOS": {
+   "id": "BOS",
+   "name": "Boston Celtics",
+   "city": "Boston",
+   "nickname": "Celtics",
+   "colors": [
+    "#007A33",
+    "#FFFFFF"
+   ],
+   "roster_size": 21,
+   "games_played": 10,
+   "default_starters": [
+    "bos-derrick-white",
+    "bos-jayson-tatum",
+    "bos-paul-george",
+    "bos-jordan-walsh",
+    "bos-neemias-queta"
+   ],
+   "depth_order": [
+    "bos-derrick-white",
+    "bos-jayson-tatum",
+    "bos-paul-george",
+    "bos-jordan-walsh",
+    "bos-neemias-queta",
+    "bos-payton-pritchard",
+    "bos-sam-hauser",
+    "bos-baylor-scheierman",
+    "bos-mitchell-robinson",
+    "bos-luka-garza",
+    "bos-hugo-gonzalez",
+    "bos-mike-conley",
+    "bos-ron-harper-jr",
+    "bos-chris-cenac-jr",
+    "bos-dillon-mitchell",
+    "bos-amari-williams",
+    "bos-tucker-devries",
+    "bos-milos-uzan",
+    "bos-gabe-mcglothan",
+    "bos-hayden-gray",
+    "bos-devin-carter"
+   ],
+   "team_overall": 72.6
+  },
+  "LAL": {
+   "id": "LAL",
+   "name": "Los Angeles Lakers",
+   "city": "Los Angeles",
+   "nickname": "Lakers",
+   "colors": [
+    "#552583",
+    "#FDB927"
+   ],
+   "roster_size": 18,
+   "games_played": 11,
+   "default_starters": [
+    "lal-austin-reaves",
+    "lal-walker-kessler",
+    "lal-matisse-thybulle",
+    "lal-luka-doncic",
+    "lal-jake-laravia"
+   ],
+   "depth_order": [
+    "lal-austin-reaves",
+    "lal-walker-kessler",
+    "lal-matisse-thybulle",
+    "lal-luka-doncic",
+    "lal-jake-laravia",
+    "lal-quentin-grimes",
+    "lal-ziaire-williams",
+    "lal-sandro-mamukelashvili",
+    "lal-collin-sexton",
+    "lal-jarred-vanderbilt",
+    "lal-adou-thiero",
+    "lal-kevon-looney",
+    "lal-jaden-hardy",
+    "lal-chris-manon",
+    "lal-bronny-james",
+    "lal-lawson-lovering",
+    "lal-cameron-carr",
+    "lal-arthur-kaluma"
+   ],
+   "team_overall": 72.0
+  },
+  "GSW": {
+   "id": "GSW",
+   "name": "Golden State Warriors",
+   "city": "Golden State",
+   "nickname": "Warriors",
+   "colors": [
+    "#1D428A",
+    "#FFC72C"
+   ],
+   "roster_size": 20,
+   "games_played": 9,
+   "default_starters": [
+    "gsw-yaxel-lendeborg",
+    "gsw-stephen-curry",
+    "gsw-draymond-green",
+    "gsw-brandin-podziemski",
+    "gsw-gui-santos"
+   ],
+   "depth_order": [
+    "gsw-yaxel-lendeborg",
+    "gsw-stephen-curry",
+    "gsw-draymond-green",
+    "gsw-brandin-podziemski",
+    "gsw-gui-santos",
+    "gsw-de-anthony-melton",
+    "gsw-georges-niang",
+    "gsw-al-horford",
+    "gsw-brandon-williams",
+    "gsw-will-richard",
+    "gsw-gary-payton-ii",
+    "gsw-charles-bassey",
+    "gsw-graham-ike",
+    "gsw-lj-cryer",
+    "gsw-malevy-leons",
+    "gsw-alex-toohey",
+    "gsw-miles-kelly",
+    "gsw-moses-moody",
+    "gsw-kristaps-porzingis",
+    "gsw-jimmy-butler-iii"
+   ],
+   "team_overall": 74.2
+  },
+  "SAS": {
+   "id": "SAS",
+   "name": "San Antonio Spurs",
+   "city": "San Antonio",
+   "nickname": "Spurs",
+   "colors": [
+    "#2B2B2B",
+    "#C4CED4"
+   ],
+   "roster_size": 17,
+   "games_played": 12,
+   "default_starters": [
+    "sas-victor-wembanyama",
+    "sas-stephon-castle",
+    "sas-de-aaron-fox",
+    "sas-dylan-harper",
+    "sas-devin-vassell"
+   ],
+   "depth_order": [
+    "sas-victor-wembanyama",
+    "sas-stephon-castle",
+    "sas-de-aaron-fox",
+    "sas-dylan-harper",
+    "sas-devin-vassell",
+    "sas-julian-champagnie",
+    "sas-keldon-johnson",
+    "sas-luke-kornet",
+    "sas-harrison-barnes",
+    "sas-carter-bryant",
+    "sas-jordan-mclaughlin",
+    "sas-tarris-reed-jr",
+    "sas-david-jones-garcia",
+    "sas-ja-kobi-gillespie",
+    "sas-maliq-brown",
+    "sas-tobias-harris",
+    "sas-jayden-quaintance"
+   ],
+   "team_overall": 76.6
+  },
+  "OKC": {
+   "id": "OKC",
+   "name": "Oklahoma City Thunder",
+   "city": "Oklahoma City",
+   "nickname": "Thunder",
+   "colors": [
+    "#007AC1",
+    "#EF3B24"
+   ],
+   "roster_size": 18,
+   "games_played": 12,
+   "default_starters": [
+    "okc-shai-gilgeous-alexander",
+    "okc-isaiah-hartenstein",
+    "okc-chet-holmgren",
+    "okc-jalen-williams",
+    "okc-cason-wallace"
+   ],
+   "depth_order": [
+    "okc-shai-gilgeous-alexander",
+    "okc-isaiah-hartenstein",
+    "okc-chet-holmgren",
+    "okc-jalen-williams",
+    "okc-cason-wallace",
+    "okc-ajay-mitchell",
+    "okc-jared-mccain",
+    "okc-aday-mara",
+    "okc-alex-caruso",
+    "okc-kenrich-williams",
+    "okc-bennett-stirtz",
+    "okc-jaylin-williams",
+    "okc-nique-clifford",
+    "okc-micah-peavy",
+    "okc-josh-dix",
+    "okc-brooks-barnhizer",
+    "okc-nikola-topic",
+    "okc-thomas-sorber"
+   ],
+   "team_overall": 77.0
+  },
+  "NYK": {
+   "id": "NYK",
+   "name": "New York Knicks",
+   "city": "New York",
+   "nickname": "Knicks",
+   "colors": [
+    "#006BB6",
+    "#F58426"
+   ],
+   "roster_size": 17,
+   "games_played": 11,
+   "default_starters": [
+    "nyk-karl-anthony-towns",
+    "nyk-jalen-brunson",
+    "nyk-og-anunoby",
+    "nyk-mikal-bridges",
+    "nyk-josh-hart"
+   ],
+   "depth_order": [
+    "nyk-karl-anthony-towns",
+    "nyk-jalen-brunson",
+    "nyk-og-anunoby",
+    "nyk-mikal-bridges",
+    "nyk-josh-hart",
+    "nyk-landry-shamet",
+    "nyk-miles-mcbride",
+    "nyk-andre-drummond",
+    "nyk-tyler-kolek",
+    "nyk-mohamed-diawara",
+    "nyk-jordan-clarkson",
+    "nyk-jose-alvarado",
+    "nyk-dalton-knecht",
+    "nyk-pacome-dadiet",
+    "nyk-james-wiseman",
+    "nyk-jaden-akins",
+    "nyk-tyler-nickel"
+   ],
+   "team_overall": 73.8
+  },
+  "HOU": {
+   "id": "HOU",
+   "name": "Houston Rockets",
+   "city": "Houston",
+   "nickname": "Rockets",
+   "colors": [
+    "#CE1141",
+    "#C4CED4"
+   ],
+   "roster_size": 17,
+   "games_played": 12,
+   "default_starters": [
+    "hou-kevin-durant",
+    "hou-amen-thompson",
+    "hou-jabari-smith-jr",
+    "hou-alperen-sengun",
+    "hou-fred-vanvleet"
+   ],
+   "depth_order": [
+    "hou-kevin-durant",
+    "hou-amen-thompson",
+    "hou-jabari-smith-jr",
+    "hou-alperen-sengun",
+    "hou-fred-vanvleet",
+    "hou-tari-eason",
+    "hou-marcus-smart",
+    "hou-reed-sheppard",
+    "hou-clint-capela",
+    "hou-bogdan-bogdanovic",
+    "hou-steven-adams",
+    "hou-oscar-tshiebwe",
+    "hou-isaiah-crawford",
+    "hou-bruce-thornton",
+    "hou-jae-sean-tate",
+    "hou-julian-phillips",
+    "hou-quadir-copeland"
+   ],
+   "team_overall": 75.1
+  },
+  "WAS": {
+   "id": "WAS",
+   "name": "Washington Wizards",
+   "city": "Washington",
+   "nickname": "Wizards",
+   "colors": [
+    "#002B5C",
+    "#E31837"
+   ],
+   "roster_size": 18,
+   "games_played": 13,
+   "default_starters": [
+    "was-trae-young",
+    "was-kyshawn-george",
+    "was-alex-sarr",
+    "was-anthony-davis",
+    "was-aj-dybantsa"
+   ],
+   "depth_order": [
+    "was-trae-young",
+    "was-kyshawn-george",
+    "was-alex-sarr",
+    "was-anthony-davis",
+    "was-aj-dybantsa",
+    "was-bilal-coulibaly",
+    "was-tre-johnson",
+    "was-justin-champagnie",
+    "was-bub-carrington",
+    "was-deandre-ayton",
+    "was-khris-middleton",
+    "was-will-riley",
+    "was-tre-mann",
+    "was-anthony-gill",
+    "was-felix-okpara",
+    "was-reece-beekman",
+    "was-jamir-watkins",
+    "was-tristan-vukcevic"
+   ],
+   "team_overall": 75.6
+  },
+  "CHI": {
+   "id": "CHI",
+   "name": "Chicago Bulls",
+   "city": "Chicago",
+   "nickname": "Bulls",
+   "colors": [
+    "#CE1141",
+    "#000000"
+   ],
+   "roster_size": 17,
+   "games_played": 10,
+   "default_starters": [
+    "chi-josh-giddey",
+    "chi-jalen-smith",
+    "chi-matas-buzelis",
+    "chi-caleb-wilson",
+    "chi-norman-powell"
+   ],
+   "depth_order": [
+    "chi-josh-giddey",
+    "chi-jalen-smith",
+    "chi-matas-buzelis",
+    "chi-caleb-wilson",
+    "chi-norman-powell",
+    "chi-patrick-williams",
+    "chi-isaac-okoro",
+    "chi-tre-jones",
+    "chi-nic-claxton",
+    "chi-leonard-miller",
+    "chi-noa-essengue",
+    "chi-buddy-hield",
+    "chi-jordan-hawkins",
+    "chi-tobe-awaka",
+    "chi-dailyn-swain",
+    "chi-jaylin-sellers",
+    "chi-zach-collins"
+   ],
+   "team_overall": 74.0
+  },
+  "TOR": {
+   "id": "TOR",
+   "name": "Toronto Raptors",
+   "city": "Toronto",
+   "nickname": "Raptors",
+   "colors": [
+    "#CE1141",
+    "#A1A1A4"
+   ],
+   "roster_size": 17,
+   "games_played": 12,
+   "default_starters": [
+    "tor-rj-barrett",
+    "tor-scottie-barnes",
+    "tor-immanuel-quickley",
+    "tor-ja-kobe-walter",
+    "tor-jakob-poeltl"
+   ],
+   "depth_order": [
+    "tor-rj-barrett",
+    "tor-scottie-barnes",
+    "tor-immanuel-quickley",
+    "tor-ja-kobe-walter",
+    "tor-jakob-poeltl",
+    "tor-kawhi-leonard",
+    "tor-jamal-shead",
+    "tor-collin-murray-boyles",
+    "tor-jamison-battle",
+    "tor-allen-graves",
+    "tor-alijah-martin",
+    "tor-kyle-anderson",
+    "tor-trayce-jackson-davis",
+    "tor-jaden-bradley",
+    "tor-malachi-smith",
+    "tor-kevin-mccullar-jr",
+    "tor-nate-bittle"
+   ],
+   "team_overall": 74.9
+  },
+  "CLE": {
+   "id": "CLE",
+   "name": "Cleveland Cavaliers",
+   "city": "Cleveland",
+   "nickname": "Cavaliers",
+   "colors": [
+    "#860038",
+    "#FDBB30"
+   ],
+   "roster_size": 17,
+   "games_played": 12,
+   "default_starters": [
+    "cle-donovan-mitchell",
+    "cle-evan-mobley",
+    "cle-james-harden",
+    "cle-jarrett-allen",
+    "cle-peyton-watson"
+   ],
+   "depth_order": [
+    "cle-donovan-mitchell",
+    "cle-evan-mobley",
+    "cle-james-harden",
+    "cle-jarrett-allen",
+    "cle-peyton-watson",
+    "cle-sam-merrill",
+    "cle-meleek-thomas",
+    "cle-jaylon-tyson",
+    "cle-mario-hezonja",
+    "cle-tyrese-proctor",
+    "cle-thomas-bryant",
+    "cle-riley-minix",
+    "cle-craig-porter-jr",
+    "cle-norchad-omier",
+    "cle-nae-qwan-tomlin",
+    "cle-khalifa-diop",
+    "cle-ernest-udeh-jr"
+   ],
+   "team_overall": 75.5
+  },
+  "DEN": {
+   "id": "DEN",
+   "name": "Denver Nuggets",
+   "city": "Denver",
+   "nickname": "Nuggets",
+   "colors": [
+    "#0E2240",
+    "#FEC524"
+   ],
+   "roster_size": 17,
+   "games_played": 10,
+   "default_starters": [
+    "den-nikola-jokic",
+    "den-jamal-murray",
+    "den-aaron-gordon",
+    "den-christian-braun",
+    "den-cameron-johnson"
+   ],
+   "depth_order": [
+    "den-nikola-jokic",
+    "den-jamal-murray",
+    "den-aaron-gordon",
+    "den-christian-braun",
+    "den-cameron-johnson",
+    "den-demar-derozan",
+    "den-trevon-brazile",
+    "den-spencer-jones",
+    "den-bryce-hopkins",
+    "den-marvin-bagley-iii",
+    "den-tyus-jones",
+    "den-alpha-diallo",
+    "den-cam-whitmore",
+    "den-zeke-nnaji",
+    "den-ryan-nembhard",
+    "den-daron-holmes",
+    "den-julian-strawther"
+   ],
+   "team_overall": 74.8
+  },
+  "MIA": {
+   "id": "MIA",
+   "name": "Miami Heat",
+   "city": "Miami",
+   "nickname": "Heat",
+   "colors": [
+    "#98002E",
+    "#F9A01B"
+   ],
+   "roster_size": 18,
+   "games_played": 11,
+   "default_starters": [
+    "mia-giannis-antetokounmpo",
+    "mia-bam-adebayo",
+    "mia-davion-mitchell",
+    "mia-klay-thompson",
+    "mia-andrew-wiggins"
+   ],
+   "depth_order": [
+    "mia-giannis-antetokounmpo",
+    "mia-bam-adebayo",
+    "mia-davion-mitchell",
+    "mia-klay-thompson",
+    "mia-andrew-wiggins",
+    "mia-pelle-larsson",
+    "mia-bobby-portis",
+    "mia-tim-hardaway-jr",
+    "mia-ryan-conwell",
+    "mia-nikola-jovic",
+    "mia-dru-smith",
+    "mia-simone-fontecchio",
+    "mia-myron-gardner",
+    "mia-nick-richards",
+    "mia-keshad-johnson",
+    "mia-jahmir-young",
+    "mia-vladislav-goldin",
+    "mia-tre-donaldson"
+   ],
+   "team_overall": 74.0
+  },
+  "POR": {
+   "id": "POR",
+   "name": "Portland Trail Blazers",
+   "city": "Portland",
+   "nickname": "Trail Blazers",
+   "colors": [
+    "#E03A3E",
+    "#000000"
+   ],
+   "roster_size": 17,
+   "games_played": 14,
+   "default_starters": [
+    "por-donovan-clingan",
+    "por-damian-lillard",
+    "por-toumani-camara",
+    "por-deni-avdija",
+    "por-ja-morant"
+   ],
+   "depth_order": [
+    "por-donovan-clingan",
+    "por-damian-lillard",
+    "por-toumani-camara",
+    "por-deni-avdija",
+    "por-ja-morant",
+    "por-jrue-holiday",
+    "por-sidy-cissoko",
+    "por-scoot-henderson",
+    "por-robert-williams",
+    "por-jayson-kent",
+    "por-chris-youngblood",
+    "por-vit-krejci",
+    "por-branden-carlson",
+    "por-yang-hansen",
+    "por-micah-potter",
+    "por-john-tonje",
+    "por-shaedon-sharpe"
+   ],
+   "team_overall": 76.9
+  },
+  "LAC": {
+   "id": "LAC",
+   "name": "Los Angeles Clippers",
+   "city": "Los Angeles",
+   "nickname": "Clippers",
+   "colors": [
+    "#C8102E",
+    "#1D428A"
+   ],
+   "roster_size": 19,
+   "games_played": 13,
+   "default_starters": [
+    "lac-darius-garland",
+    "lac-kris-dunn",
+    "lac-derrick-jones-jr",
+    "lac-rui-hachimura",
+    "lac-brook-lopez"
+   ],
+   "depth_order": [
+    "lac-darius-garland",
+    "lac-kris-dunn",
+    "lac-derrick-jones-jr",
+    "lac-rui-hachimura",
+    "lac-brook-lopez",
+    "lac-keaton-wagler",
+    "lac-kobe-sanders",
+    "lac-max-strus",
+    "lac-isaiah-jackson",
+    "lac-gradey-dick",
+    "lac-baba-miller",
+    "lac-cam-christie",
+    "lac-jalen-pickett",
+    "lac-nick-martinelli",
+    "lac-brandon-ingram",
+    "lac-jordan-miller",
+    "lac-bradley-beal",
+    "lac-nicolas-batum",
+    "lac-yanic-konan-niederhauser"
+   ],
+   "team_overall": 70.5
+  },
+  "CHA": {
+   "id": "CHA",
+   "name": "Charlotte Hornets",
+   "city": "Charlotte",
+   "nickname": "Hornets",
+   "colors": [
+    "#1D1160",
+    "#00788C"
+   ],
+   "roster_size": 18,
+   "games_played": 13,
+   "default_starters": [
+    "cha-naz-reid",
+    "cha-moussa-diabate",
+    "cha-brandon-miller",
+    "cha-coby-white",
+    "cha-sion-james"
+   ],
+   "depth_order": [
+    "cha-naz-reid",
+    "cha-moussa-diabate",
+    "cha-brandon-miller",
+    "cha-coby-white",
+    "cha-sion-james",
+    "cha-dennis-schroder",
+    "cha-grayson-allen",
+    "cha-royce-o-neale",
+    "cha-ryan-kalkbrenner",
+    "cha-grant-williams",
+    "cha-tidjane-salaun",
+    "cha-christian-anderson-jr",
+    "cha-hannes-steinbach",
+    "cha-liam-mcneeley",
+    "cha-kon-knueppel",
+    "cha-pj-hall",
+    "cha-michael-ajayi",
+    "cha-kylan-boswell"
+   ],
+   "team_overall": 72.5
+  },
+  "MIL": {
+   "id": "MIL",
+   "name": "Milwaukee Bucks",
+   "city": "Milwaukee",
+   "nickname": "Bucks",
+   "colors": [
+    "#00471B",
+    "#EEE1C6"
+   ],
+   "roster_size": 18,
+   "games_played": 15,
+   "default_starters": [
+    "mil-kyle-kuzma",
+    "mil-tyler-herro",
+    "mil-myles-turner",
+    "mil-jaime-jaquez-jr",
+    "mil-brayden-burries"
+   ],
+   "depth_order": [
+    "mil-kyle-kuzma",
+    "mil-tyler-herro",
+    "mil-myles-turner",
+    "mil-jaime-jaquez-jr",
+    "mil-brayden-burries",
+    "mil-ryan-rollins",
+    "mil-kasparas-jakucionis",
+    "mil-kel-el-ware",
+    "mil-nate-ament",
+    "mil-a-j-green",
+    "mil-gary-trent-jr",
+    "mil-ousmane-dieng",
+    "mil-jericho-sims",
+    "mil-caris-levert",
+    "mil-bogoljub-markovic",
+    "mil-pete-nance",
+    "mil-cormac-ryan",
+    "mil-kam-jones"
+   ],
+   "team_overall": 72.4
+  },
+  "DET": {
+   "id": "DET",
+   "name": "Detroit Pistons",
+   "city": "Detroit",
+   "nickname": "Pistons",
+   "colors": [
+    "#C8102E",
+    "#1D42BA"
+   ],
+   "roster_size": 18,
+   "games_played": 13,
+   "default_starters": [
+    "det-cade-cunningham",
+    "det-john-collins",
+    "det-ausar-thompson",
+    "det-duncan-robinson",
+    "det-paul-reed"
+   ],
+   "depth_order": [
+    "det-cade-cunningham",
+    "det-john-collins",
+    "det-ausar-thompson",
+    "det-duncan-robinson",
+    "det-paul-reed",
+    "det-daniss-jenkins",
+    "det-kevin-huerter",
+    "det-jalen-duren",
+    "det-javonte-green",
+    "det-ron-holland",
+    "det-isaiah-joe",
+    "det-chaz-lanier",
+    "det-taurean-prince",
+    "det-ebuka-okorie",
+    "det-tolu-smith",
+    "det-isaac-jones",
+    "det-elijah-harkless",
+    "det-ugonna-onyenso"
+   ],
+   "team_overall": 77.0
+  },
+  "MIN": {
+   "id": "MIN",
+   "name": "Minnesota Timberwolves",
+   "city": "Minnesota",
+   "nickname": "Timberwolves",
+   "colors": [
+    "#0C2340",
+    "#236192"
+   ],
+   "roster_size": 17,
+   "games_played": 15,
+   "default_starters": [
+    "min-lamelo-ball",
+    "min-jaden-mcdaniels",
+    "min-rudy-gobert",
+    "min-jonathan-kuminga",
+    "min-anthony-edwards"
+   ],
+   "depth_order": [
+    "min-lamelo-ball",
+    "min-jaden-mcdaniels",
+    "min-rudy-gobert",
+    "min-jonathan-kuminga",
+    "min-anthony-edwards",
+    "min-ayo-dosunmu",
+    "min-terrence-shannon-jr",
+    "min-trey-lyles",
+    "min-joan-beringer",
+    "min-bones-hyland",
+    "min-jaylen-clark",
+    "min-cody-williams",
+    "min-zyon-pullin",
+    "min-isaiah-evans",
+    "min-rocco-zikarsky",
+    "min-donte-divincenzo",
+    "min-johni-broome"
+   ],
+   "team_overall": 75.5
+  },
+  "ATL": {
+   "id": "ATL",
+   "name": "Atlanta Hawks",
+   "city": "Atlanta",
+   "nickname": "Hawks",
+   "colors": [
+    "#E03A3E",
+    "#C1D32F"
+   ],
+   "roster_size": 17,
+   "games_played": 14,
+   "default_starters": [
+    "atl-dyson-daniels",
+    "atl-nickeil-alexander-walker",
+    "atl-onyeka-okongwu",
+    "atl-jalen-johnson",
+    "atl-cj-mccollum"
+   ],
+   "depth_order": [
+    "atl-dyson-daniels",
+    "atl-nickeil-alexander-walker",
+    "atl-onyeka-okongwu",
+    "atl-jalen-johnson",
+    "atl-cj-mccollum",
+    "atl-aaron-wiggins",
+    "atl-luguentz-dort",
+    "atl-kingston-flemings",
+    "atl-jock-landale",
+    "atl-zuby-ejiofor",
+    "atl-asa-newell",
+    "atl-corey-kispert",
+    "atl-rayj-dennis",
+    "atl-dorian-finney-smith",
+    "atl-jalen-wilson",
+    "atl-mouhamed-gueye",
+    "atl-henri-veesaar"
+   ],
+   "team_overall": 73.7
+  },
+  "BKN": {
+   "id": "BKN",
+   "name": "Brooklyn Nets",
+   "city": "Brooklyn",
+   "nickname": "Nets",
+   "colors": [
+    "#000000",
+    "#FFFFFF"
+   ],
+   "roster_size": 18,
+   "games_played": 13,
+   "default_starters": [
+    "bkn-julius-randle",
+    "bkn-day-ron-sharpe",
+    "bkn-michael-porter-jr",
+    "bkn-egor-demin",
+    "bkn-nolan-traore"
+   ],
+   "depth_order": [
+    "bkn-julius-randle",
+    "bkn-day-ron-sharpe",
+    "bkn-michael-porter-jr",
+    "bkn-egor-demin",
+    "bkn-nolan-traore",
+    "bkn-danny-wolf",
+    "bkn-mikel-brown-jr",
+    "bkn-keon-ellis",
+    "bkn-noah-clowney",
+    "bkn-moritz-wagner",
+    "bkn-chaney-johnson",
+    "bkn-terance-mann",
+    "bkn-drake-powell",
+    "bkn-josh-minott",
+    "bkn-ben-saraf",
+    "bkn-joshua-jefferson",
+    "bkn-grant-nelson",
+    "bkn-tyler-bilodeau"
+   ],
+   "team_overall": 70.8
+  },
+  "DAL": {
+   "id": "DAL",
+   "name": "Dallas Mavericks",
+   "city": "Dallas",
+   "nickname": "Mavericks",
+   "colors": [
+    "#00538C",
+    "#B8C4CA"
+   ],
+   "roster_size": 18,
+   "games_played": 14,
+   "default_starters": [
+    "dal-daniel-gafford",
+    "dal-p-j-washington",
+    "dal-cooper-flagg",
+    "dal-kyrie-irving",
+    "dal-caleb-martin"
+   ],
+   "depth_order": [
+    "dal-daniel-gafford",
+    "dal-p-j-washington",
+    "dal-cooper-flagg",
+    "dal-kyrie-irving",
+    "dal-caleb-martin",
+    "dal-naji-marshall",
+    "dal-zaccharie-risacher",
+    "dal-max-christie",
+    "dal-morez-johnson-jr",
+    "dal-walter-clayton",
+    "dal-marcus-sasser",
+    "dal-santi-aldama",
+    "dal-sergio-de-larrea",
+    "dal-tobi-lawal",
+    "dal-moussa-cisse",
+    "dal-jett-howard",
+    "dal-dereck-lively-ii",
+    "dal-tarik-biberovic"
+   ],
+   "team_overall": 72.9
+  },
+  "IND": {
+   "id": "IND",
+   "name": "Indiana Pacers",
+   "city": "Indiana",
+   "nickname": "Pacers",
+   "colors": [
+    "#002D62",
+    "#FDBB30"
+   ],
+   "roster_size": 17,
+   "games_played": 14,
+   "default_starters": [
+    "ind-pascal-siakam",
+    "ind-andrew-nembhard",
+    "ind-tyrese-haliburton",
+    "ind-ivica-zubac",
+    "ind-aaron-nesmith"
+   ],
+   "depth_order": [
+    "ind-pascal-siakam",
+    "ind-andrew-nembhard",
+    "ind-tyrese-haliburton",
+    "ind-ivica-zubac",
+    "ind-aaron-nesmith",
+    "ind-kelly-oubre-jr",
+    "ind-quenton-jackson",
+    "ind-jarace-walker",
+    "ind-obi-toppin",
+    "ind-jay-huff",
+    "ind-jalen-slawson",
+    "ind-larry-nance-jr",
+    "ind-t-j-mcconnell",
+    "ind-braden-smith",
+    "ind-kobe-brown",
+    "ind-ben-sheppard",
+    "ind-johnny-furphy"
+   ],
+   "team_overall": 75.2
+  },
+  "MEM": {
+   "id": "MEM",
+   "name": "Memphis Grizzlies",
+   "city": "Memphis",
+   "nickname": "Grizzlies",
+   "colors": [
+    "#5D76A9",
+    "#12173F"
+   ],
+   "roster_size": 18,
+   "games_played": 15,
+   "default_starters": [
+    "mem-cameron-boozer",
+    "mem-jaylen-wells",
+    "mem-cedric-coward",
+    "mem-ty-jerome",
+    "mem-zach-edey"
+   ],
+   "depth_order": [
+    "mem-cameron-boozer",
+    "mem-jaylen-wells",
+    "mem-cedric-coward",
+    "mem-ty-jerome",
+    "mem-zach-edey",
+    "mem-jerami-grant",
+    "mem-cam-spencer",
+    "mem-javon-small",
+    "mem-isaiah-stewart",
+    "mem-scotty-pippen-jr",
+    "mem-gg-jackson-ii",
+    "mem-taylor-hendricks",
+    "mem-quinten-post",
+    "mem-kris-murray",
+    "mem-olivier-maxence-prosper",
+    "mem-jahmai-mashack",
+    "mem-karim-lopez",
+    "mem-richie-saunders"
+   ],
+   "team_overall": 76.0
+  },
+  "NOP": {
+   "id": "NOP",
+   "name": "New Orleans Pelicans",
+   "city": "New Orleans",
+   "nickname": "Pelicans",
+   "colors": [
+    "#0C2340",
+    "#C8102E"
+   ],
+   "roster_size": 18,
+   "games_played": 15,
+   "default_starters": [
+    "nop-jeremiah-fears",
+    "nop-zion-williamson",
+    "nop-yves-missi",
+    "nop-trey-murphy-iii",
+    "nop-dejounte-murray"
+   ],
+   "depth_order": [
+    "nop-jeremiah-fears",
+    "nop-zion-williamson",
+    "nop-yves-missi",
+    "nop-trey-murphy-iii",
+    "nop-dejounte-murray",
+    "nop-saddiq-bey",
+    "nop-herbert-jones",
+    "nop-derik-queen",
+    "nop-jordan-poole",
+    "nop-karlo-matkovic",
+    "nop-trendon-watford",
+    "nop-bennedict-mathurin",
+    "nop-deandre-jordan",
+    "nop-jaron-pierre-jr",
+    "nop-bryce-mcgowens",
+    "nop-aj-johnson",
+    "nop-julian-reese",
+    "nop-malik-dia"
+   ],
+   "team_overall": 74.9
+  },
+  "ORL": {
+   "id": "ORL",
+   "name": "Orlando Magic",
+   "city": "Orlando",
+   "nickname": "Magic",
+   "colors": [
+    "#0077C0",
+    "#C4CED4"
+   ],
+   "roster_size": 17,
+   "games_played": 13,
+   "default_starters": [
+    "orl-franz-wagner",
+    "orl-wendell-carter-jr",
+    "orl-desmond-bane",
+    "orl-anthony-black",
+    "orl-jalen-suggs"
+   ],
+   "depth_order": [
+    "orl-franz-wagner",
+    "orl-wendell-carter-jr",
+    "orl-desmond-bane",
+    "orl-anthony-black",
+    "orl-jalen-suggs",
+    "orl-paolo-banchero",
+    "orl-tristan-da-silva",
+    "orl-jase-richardson",
+    "orl-jamal-cain",
+    "orl-jevon-carter",
+    "orl-alex-morales",
+    "orl-goga-bitadze",
+    "orl-nikola-vucevic",
+    "orl-colin-castleton",
+    "orl-noah-penda",
+    "orl-jonathan-isaac",
+    "orl-izaiyah-nelson"
+   ],
+   "team_overall": 74.9
+  },
+  "PHX": {
+   "id": "PHX",
+   "name": "Phoenix Suns",
+   "city": "Phoenix",
+   "nickname": "Suns",
+   "colors": [
+    "#1D1160",
+    "#E56020"
+   ],
+   "roster_size": 17,
+   "games_played": 13,
+   "default_starters": [
+    "phx-devin-booker",
+    "phx-miles-bridges",
+    "phx-jalen-green",
+    "phx-dillon-brooks",
+    "phx-oso-ighodaro"
+   ],
+   "depth_order": [
+    "phx-devin-booker",
+    "phx-miles-bridges",
+    "phx-jalen-green",
+    "phx-dillon-brooks",
+    "phx-oso-ighodaro",
+    "phx-collin-gillespie",
+    "phx-jordan-goodwin",
+    "phx-khaman-maluach",
+    "phx-luke-kennard",
+    "phx-ryan-dunn",
+    "phx-rasheer-fleming",
+    "phx-duop-reath",
+    "phx-jamaree-bouyea",
+    "phx-pat-spencer",
+    "phx-koa-peat",
+    "phx-mark-williams",
+    "phx-drew-timme"
+   ],
+   "team_overall": 73.5
+  },
+  "SAC": {
+   "id": "SAC",
+   "name": "Sacramento Kings",
+   "city": "Sacramento",
+   "nickname": "Kings",
+   "colors": [
+    "#5A2D81",
+    "#63727A"
+   ],
+   "roster_size": 17,
+   "games_played": 13,
+   "default_starters": [
+    "sac-darius-acuff-jr",
+    "sac-domantas-sabonis",
+    "sac-zach-lavine",
+    "sac-de-andre-hunter",
+    "sac-precious-achiuwa"
+   ],
+   "depth_order": [
+    "sac-darius-acuff-jr",
+    "sac-domantas-sabonis",
+    "sac-zach-lavine",
+    "sac-de-andre-hunter",
+    "sac-precious-achiuwa",
+    "sac-keegan-murray",
+    "sac-leaky-black",
+    "sac-emanuel-sharp",
+    "sac-malik-monk",
+    "sac-jonathan-mogbo",
+    "sac-alex-karaban",
+    "sac-daeqwon-plowden",
+    "sac-mason-plumlee",
+    "sac-maxime-raynaud",
+    "sac-killian-hayes",
+    "sac-sean-pedulla",
+    "sac-ben-simmons"
+   ],
+   "team_overall": 70.4
+  },
+  "UTA": {
+   "id": "UTA",
+   "name": "Utah Jazz",
+   "city": "Utah",
+   "nickname": "Jazz",
+   "colors": [
+    "#002B5C",
+    "#F9A01B"
+   ],
+   "roster_size": 17,
+   "games_played": 15,
+   "default_starters": [
+    "uta-darryn-peterson",
+    "uta-keyonte-george",
+    "uta-ace-bailey",
+    "uta-lauri-markkanen",
+    "uta-jaren-jackson-jr"
+   ],
+   "depth_order": [
+    "uta-darryn-peterson",
+    "uta-keyonte-george",
+    "uta-ace-bailey",
+    "uta-lauri-markkanen",
+    "uta-jaren-jackson-jr",
+    "uta-jaxson-hayes",
+    "uta-mo-bamba",
+    "uta-josh-okogie",
+    "uta-josh-green",
+    "uta-brice-sensabaugh",
+    "uta-svi-mykhailiuk",
+    "uta-isaiah-collier",
+    "uta-tony-bradley",
+    "uta-kyle-filipowski",
+    "uta-jusuf-nurkic",
+    "uta-kobe-bufkin",
+    "uta-harrison-ingram"
+   ],
+   "team_overall": 75.6
+  }
+ }
+}

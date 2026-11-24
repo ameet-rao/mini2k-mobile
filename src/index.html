@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Mini2K">
+<meta name="theme-color" content="#07090c">
+<title>Mini2K Mobile</title>
+<style>
+  /* Pixel-art menus. Fonts "Mini2K Pixel" / "Mini2K Tiny" are built at load time from the game's own
+     bitmap fonts (src/ui/pixelfont.js). One font pixel = 1/10 em, so sizes are multiples of 10px. */
+  :root { color-scheme: dark; --ink: #e8ecf1; --dim: #9aa8bc; --bg: #07090c; --panel: #131a26; --panel2: #0c111a;
+    --edge: #000; --line: #33435e; --hi: #4a5f82; --yel: #ffd84a; --yel-hi: #fff2a6; --yel-lo: #c79a12; --red: #ff6a5a;
+    --px: "Mini2K Pixel", ui-monospace, monospace; --tiny: "Mini2K Tiny", "Mini2K Pixel", ui-monospace, monospace; }
+  html, body { height: 100%; margin: 0; background: var(--bg); color: var(--ink); font: 20px/1.5 var(--px); overflow: hidden;
+    text-transform: uppercase; -webkit-font-smoothing: none; font-smooth: never; text-rendering: optimizeSpeed; }
+  html:not(.px-ready) .overlay { visibility: hidden; }
+  #stage { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+  canvas { display: block; width: min(100vw, calc(100vh * 1200 / 804)); height: auto; aspect-ratio: 1200 / 804; background: #0d1117; }
+  canvas.pixel { aspect-ratio: auto; image-rendering: pixelated; image-rendering: crisp-edges; }
+
+  /* stepped "pixel" borders: notched corners from four hard shadows, plus an inner bevel */
+  .card, select, button, kbd, .keys, .settings, input[type=checkbox] {
+    border: 0; border-radius: 0;
+    box-shadow: 0 -4px 0 0 var(--edge), 0 4px 0 0 var(--edge), -4px 0 0 0 var(--edge), 4px 0 0 0 var(--edge);
+  }
+  .overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5;
+    background: repeating-linear-gradient(0deg, rgba(4,6,10,.86) 0 2px, rgba(4,6,10,.74) 2px 4px); }
+  .overlay[hidden] { display: none; }
+  .card { background: var(--panel); padding: 22px 30px; width: min(1060px, 92vw); max-height: 92vh; box-sizing: border-box; overflow: auto; margin: 8px;
+    box-shadow: 0 -4px 0 0 var(--edge), 0 4px 0 0 var(--edge), -4px 0 0 0 var(--edge), 4px 0 0 0 var(--edge),
+      inset 0 4px 0 0 var(--hi), inset 4px 0 0 0 var(--line), inset -4px 0 0 0 var(--panel2), inset 0 -4px 0 0 var(--panel2),
+      12px 12px 0 0 rgba(0,0,0,.55); }
+  h1 { margin: 0 0 6px; font: 40px/1.2 var(--px); color: var(--yel); text-shadow: 4px 4px 0 #6b3a00, 8px 8px 0 #000; letter-spacing: 0; }
+  h1 .tag { display: inline-block; margin-left: 12px; padding: 2px 8px; font: 20px/1.3 var(--px); color: #111; background: var(--red); text-shadow: none; vertical-align: middle; }
+  .head { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 18px; flex-wrap: wrap; }
+  .head a { font: 20px/1.5 var(--tiny); }
+  .sub { color: var(--dim); margin: 6px 0 18px; font: 20px/1.6 var(--tiny); }
+  .row { display: grid; grid-template-columns: 220px 1fr; gap: 14px; align-items: center; margin: 14px 4px; }
+  label { color: #c4cedc; }
+  select { width: 100%; padding: 6px 40px 6px 12px; background: var(--panel2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' shape-rendering='crispEdges'%3E%3Cpath fill='%23ffd84a' d='M0 0h14v2H0zM2 2h10v2H2zM4 4h6v2H4zM6 6h2v2H6z'/%3E%3C/svg%3E") no-repeat right 12px center;
+    color: #fff; font: 20px/1.5 var(--px); text-transform: uppercase; appearance: none; -webkit-appearance: none; cursor: pointer;
+    box-shadow: 0 -4px 0 0 var(--edge), 0 4px 0 0 var(--edge), -4px 0 0 0 var(--edge), 4px 0 0 0 var(--edge), inset 0 4px 0 0 #05080c; }
+  select:hover { background-color: #121a27; }
+  option { background: #0c111a; color: #fff; font: 20px var(--px); }
+  button { font: 20px/1.4 var(--px); text-transform: uppercase; padding: 10px 20px 12px; cursor: pointer; background: var(--yel); color: #1a1406; position: relative;
+    box-shadow: 0 -4px 0 0 var(--edge), 0 4px 0 0 var(--edge), -4px 0 0 0 var(--edge), 4px 0 0 0 var(--edge),
+      inset 0 4px 0 0 var(--yel-hi), inset 4px 0 0 0 var(--yel-hi), inset 0 -4px 0 0 var(--yel-lo), inset -4px 0 0 0 var(--yel-lo); }
+  button:hover { filter: brightness(1.08); }
+  button:active { top: 2px; box-shadow: 0 -4px 0 0 var(--edge), 0 4px 0 0 var(--edge), -4px 0 0 0 var(--edge), 4px 0 0 0 var(--edge), inset 0 4px 0 0 var(--yel-lo), inset 4px 0 0 0 var(--yel-lo); }
+  button.ghost { background: #263247; color: #e6ecf5;
+    box-shadow: 0 -4px 0 0 var(--edge), 0 4px 0 0 var(--edge), -4px 0 0 0 var(--edge), 4px 0 0 0 var(--edge),
+      inset 0 4px 0 0 #3f5274, inset 4px 0 0 0 #3f5274, inset 0 -4px 0 0 #18202e, inset -4px 0 0 0 #18202e; }
+  button.ghost:active { box-shadow: 0 -4px 0 0 var(--edge), 0 4px 0 0 var(--edge), -4px 0 0 0 var(--edge), 4px 0 0 0 var(--edge), inset 0 4px 0 0 #18202e, inset 4px 0 0 0 #18202e; }
+  button:focus-visible, select:focus-visible, input:focus-visible { outline: 4px solid var(--yel); outline-offset: 6px; }
+  button:focus-visible::before { content: ">"; position: absolute; left: -30px; color: var(--yel); }
+  input[type=checkbox] { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; margin: 4px; background: var(--panel2); cursor: pointer; flex: none; }
+  input[type=checkbox]:checked { background: var(--panel2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' shape-rendering='crispEdges'%3E%3Cpath fill='%2366e07a' d='M8 1h2v2H8zM6 3h2v2H6zM0 5h2v2H0zM4 5h2v2H4zM2 7h2v2H2z'/%3E%3C/svg%3E") center / 20px 20px no-repeat; }
+  .actions { display: flex; gap: 22px; margin-top: 24px; flex-wrap: wrap; padding: 4px; }
+  .keys { margin: 20px 4px 0; padding: 14px 18px; background: var(--panel2); color: #c8d0da; font: 20px/2 var(--tiny); }
+  .keys b { color: var(--yel); font-weight: normal; }
+  kbd { display: inline-block; min-width: 14px; margin: 0 6px 0 2px; padding: 0 6px; background: #223048; color: #fff; font: 20px/1.4 var(--tiny); text-align: center; vertical-align: 1px;
+    box-shadow: 0 -2px 0 0 var(--edge), 0 2px 0 0 var(--edge), -2px 0 0 0 var(--edge), 2px 0 0 0 var(--edge), inset 0 -2px 0 0 #121a28; }
+  .picks { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 26px; margin: 0 4px; }
+  .picks label { display: flex; flex-direction: column; gap: 8px; font: 20px/1.3 var(--tiny); color: var(--dim); }
+  .krow { display: flex; gap: 16px; align-items: baseline; margin: 2px 0; }
+  .krow b { flex: none; width: 100px; }
+  .krow > div { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+  .keys span { white-space: nowrap; }
+  .settings { display: grid; grid-template-columns: repeat(4, auto); gap: 12px 30px; margin: 20px 4px 0; padding: 14px 18px; background: var(--panel2); font: 20px/1.5 var(--tiny); }
+  .settings label { display: flex; align-items: center; gap: 10px; justify-content: space-between; }
+  .settings select { width: auto; padding: 2px 34px 2px 8px; font: 20px/1.5 var(--tiny); background-position: right 8px center; }
+  #coach h2 { font: 20px/1.4 var(--px); margin: 18px 0 10px; color: var(--yel); }
+  #coach .note { font: 20px/1.6 var(--tiny); color: var(--dim); margin: 8px 0 0; text-transform: none; }
+  #coach .actions.left { justify-content: flex-start; align-items: center; gap: 18px; margin: 0 0 10px; }
+  #coach .auto { display: flex; align-items: center; gap: 10px; font: 20px/1.5 var(--tiny); margin-top: 12px; }
+  #subTable td, #subTable th { padding: 4px 8px; font: 20px/1.5 var(--tiny); text-align: left; }
+  #subTable select { max-width: 300px; font: 20px/1.5 var(--tiny); padding: 2px 34px 2px 8px; background-position: right 8px center; }
+  #subTable .low { color: #ff8a6a; }
+  #statTable td, #statTable th { padding: 4px 8px; }
+  #statTable td:first-child, #statTable th:first-child { width: 14px; padding-right: 0; color: var(--yel); }
+  #statTable td:nth-child(2), #statTable th:nth-child(2) { text-align: left; }
+  #statTable tr.team th { padding-top: 18px; }
+  #statTable tr.on td { color: #fff; }
+  #statTable tr:not(.on):not(.team) td { color: #b4bfcf; }
+  table { border-collapse: collapse; width: 100%; margin-top: 14px; font: 20px/1.5 var(--tiny); }
+  td, th { padding: 6px 8px; text-align: right; border-bottom: 2px solid #253247; }
+  th { color: var(--yel); font-weight: normal; border-bottom: 4px solid var(--line); }
+  td:first-child, th:first-child { text-align: left; }
+  .big { font: 40px/1.3 var(--px); margin: 10px 0 4px; color: #fff; text-shadow: 4px 4px 0 #000; }
+  a { color: #8cc8ff; text-decoration: none; border-bottom: 2px solid #3b6b9c; }
+  a:hover { color: #fff; border-color: #fff; }
+  .card::-webkit-scrollbar { width: 12px; } .card::-webkit-scrollbar-track { background: var(--panel2); }
+  .card::-webkit-scrollbar-thumb { background: var(--hi); border: 2px solid var(--panel2); }
+  #err { position: fixed; left: 12px; bottom: 12px; color: #ff8a8a; font: 20px var(--tiny); white-space: pre-wrap; z-index: 9; }
+  /* online play */
+  .online [hidden], #netMsg[hidden], #netBadge[hidden], #btnNetMsg[hidden], #pauseOnline[hidden] { display: none !important; }
+  input[type=text], input[type=password], textarea { background: var(--panel2); color: #fff; font: 20px/1.5 var(--tiny); padding: 6px 10px; border: 0; border-radius: 0; box-sizing: border-box;
+    box-shadow: 0 -4px 0 0 var(--edge), 0 4px 0 0 var(--edge), -4px 0 0 0 var(--edge), 4px 0 0 0 var(--edge), inset 0 4px 0 0 #05080c; }
+  #onCode { width: 200px; font: 30px/1.3 var(--px); text-transform: uppercase; letter-spacing: 4px; text-align: center; }
+  textarea { width: 100%; height: 90px; resize: vertical; text-transform: none; word-break: break-all; }
+  .online .row2 { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; margin: 18px 4px 0; }
+  .online .roomcode { font: 60px/1.1 var(--px); color: var(--yel); letter-spacing: 10px; text-shadow: 4px 4px 0 #000; }
+  .online .status { font: 20px/1.6 var(--tiny); color: #c8f08f; margin: 14px 4px 0; text-transform: none; min-height: 32px; }
+  .online .status.bad { color: #ff8a6a; }
+  .online .match { font: 20px/1.6 var(--px); margin: 10px 4px 0; }
+  .online .manual { margin: 14px 4px 0; display: grid; gap: 10px; font: 20px/1.5 var(--tiny); color: var(--dim); }
+  .online details { margin: 22px 4px 0; padding: 12px 16px; background: var(--panel2); font: 20px/1.6 var(--tiny); }
+  .online details summary { cursor: pointer; color: var(--yel); }
+  .online details label { display: grid; grid-template-columns: 220px 1fr; gap: 12px; align-items: center; margin: 10px 0; }
+  .online details p { text-transform: none; color: var(--dim); margin: 8px 0; }
+  .presence { margin: 18px 4px 0; padding: 12px 16px; background: var(--panel2); font: 20px/1.6 var(--tiny); }
+  .presence .prow { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .presence .prow b { font: 20px/1.4 var(--px); color: var(--yel); font-weight: normal; margin-right: auto; }
+  .presence input { width: 220px; }
+  .presence button { padding: 4px 14px 6px; }
+  #presList { display: flex; flex-wrap: wrap; gap: 4px 26px; margin-top: 10px; text-transform: none; color: var(--dim); min-height: 30px; }
+  #presList .p { white-space: nowrap; }
+  #presList .p b { color: #fff; font-weight: normal; }
+  #presList .dot { display: inline-block; width: 10px; height: 10px; margin-right: 8px; background: #6b7686; vertical-align: 1px; }
+  #presList .dot.on { background: #44e06a; box-shadow: 0 0 6px #44e06a; }
+  .seats { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 26px; margin: 18px 4px 0; }
+  .seats .side { display: flex; flex-direction: column; gap: 10px; padding: 12px 14px; background: var(--panel2); }
+  .seats h2 { font: 20px/1.4 var(--px); margin: 0; color: var(--yel); }
+  .seats .seatlist { display: flex; flex-direction: column; gap: 10px; }
+  .seats button.seat { text-align: left; font: 20px/1.5 var(--tiny); text-transform: none; }
+  .seats button.seat.mine { outline: 4px solid var(--yel); }
+  .seats button.seat b { font-weight: normal; color: var(--dim); }
+  .picklist { display: flex; flex-direction: column; gap: 8px; }
+  .picklist select, .sublab select { font: 18px/1.4 var(--tiny); text-transform: none; }
+  .sublab { display: flex; flex-direction: column; gap: 6px; font: 18px/1.3 var(--tiny); color: var(--dim); }
+  #netBadge { position: fixed; top: 6px; left: 8px; z-index: 4; font: 20px/1.2 var(--tiny); color: #c8f08f; text-shadow: 2px 2px 0 #000; pointer-events: none; }
+  #netBadge.bad { color: #ff8a6a; }
+  #netMsg { position: fixed; top: 18%; left: 50%; transform: translateX(-50%); z-index: 6; background: var(--panel); padding: 16px 24px; text-align: center; max-width: 80vw;
+    box-shadow: 0 -4px 0 0 var(--edge), 0 4px 0 0 var(--edge), -4px 0 0 0 var(--edge), 4px 0 0 0 var(--edge), 12px 12px 0 0 rgba(0,0,0,.55); }
+  #netMsg p { margin: 0 0 12px; text-transform: none; }
+  #pauseOnline { font: 20px/1.6 var(--tiny); color: var(--dim); text-transform: none; }
+  @media (max-width: 1000px) { .settings { grid-template-columns: repeat(2, auto); } }
+  @media (max-width: 640px) { .picks { grid-template-columns: 1fr; } .krow { flex-direction: column; gap: 6px; } }
+  @media (max-height: 760px), (max-width: 900px) {
+    .card { padding: 18px 20px; } h1 { font-size: 30px; text-shadow: 3px 3px 0 #6b3a00, 6px 6px 0 #000; }
+    .krow > div { gap: 4px 18px; } .keys, .settings { margin-top: 14px; padding: 10px 16px; } .actions { margin-top: 18px; } .sub { margin-bottom: 12px; } .picks { gap: 10px 26px; } .row { grid-template-columns: 180px 1fr; margin: 10px 4px; }
+  }
+
+
+  /* ---------- mobile: touch controls, rotate prompt, compact menus ---------- */
+  html, body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; overscroll-behavior: none; }
+  input, textarea { -webkit-user-select: text; user-select: text; }
+  details.more { margin: 16px 4px 0; }
+  details.more summary { cursor: pointer; color: var(--yel); font: 20px/1.5 var(--px); padding: 4px 0; }
+  details.more .settings { margin-top: 8px; }
+  #touch { position: fixed; inset: 0; z-index: 3; pointer-events: none; }
+  #touch[hidden] { display: none; }
+  #touch .t-zone { position: absolute; left: 0; top: 0; bottom: 0; width: 50%; pointer-events: auto; touch-action: none; }
+  #touch .t-stick { position: absolute; border-radius: 50%; pointer-events: none; background: rgba(8,12,20,.28);
+    box-shadow: 0 0 0 3px rgba(255,255,255,.35), inset 0 0 0 2px rgba(0,0,0,.35); }
+  #touch .t-stick[hidden] { display: none; }
+  #touch .t-stick i { position: absolute; left: 28%; top: 28%; width: 44%; height: 44%; border-radius: 50%; background: rgba(232,236,241,.55); box-shadow: 0 0 0 3px rgba(0,0,0,.4); }
+  #touch .t-stick.fast i { background: rgba(255,216,74,.8); }
+  #touch .t-btn { position: absolute; pointer-events: auto; touch-action: none; border-radius: 50%; padding: 0; display: flex; align-items: center; justify-content: center;
+    width: var(--s); height: var(--s); right: calc(var(--r) + env(safe-area-inset-right)); bottom: calc(var(--b) + env(safe-area-inset-bottom));
+    background: rgba(20,28,42,.52); color: #fff; font: 10px/1 var(--px); text-shadow: 1px 1px 0 #000; top: auto;
+    box-shadow: 0 0 0 3px rgba(0,0,0,.55), inset 0 0 0 3px rgba(255,255,255,.28); }
+  #touch .t-btn span { pointer-events: none; }
+  #touch .t-btn.down { background: rgba(255,216,74,.75); color: #1a1406; text-shadow: none; transform: scale(.94); }
+  #touch .t-btn.off { display: none; }
+  #touch .t-shoot { --s: 26vh; --r: 3vh; --b: 5vh; font-size: 20px; background: rgba(255,216,74,.32); }
+  #touch .t-pass { --s: 16vh; --r: 30vh; --b: 4vh; }
+  #touch .t-q { --s: 15vh; --r: 5.5vh; --b: 34.5vh; }
+  #touch .t-r { --s: 15vh; --r: 26.5vh; --b: 28.5vh; }
+  #touch .t-move { --s: 15vh; --r: 48.5vh; --b: 14.5vh; }
+  #touch .t-spin { --s: 14vh; --r: 47vh; --b: 38vh; }
+  #touch .t-sprint { --s: 15vh; --r: 22.5vh; --b: 50.5vh; }
+  #touch.def .t-pass { background: rgba(255,106,90,.35); }
+  #touch .t-top { position: absolute; right: 0; top: 0; }
+  #touch .t-small { --s: 11vh; --b: auto; position: absolute; top: calc(3vh + env(safe-area-inset-top)); bottom: auto; border-radius: 6px; font-size: 10px; }
+  #touch .t-small[data-act=pause] { --r: 3vh; }
+  #touch .t-small[data-act=timeout] { --r: 16vh; }
+  #touch .t-small[hidden] { display: none; }
+  #touch.cpu .t-pad, #touch.cpu .t-zone, #touch.cpu [data-act=timeout] { display: none; }
+  #rotate { display: none; }
+  @media (orientation: portrait) and (pointer: coarse) {
+    html.ingame #rotate { display: flex; position: fixed; inset: 0; z-index: 20; background: var(--bg); align-items: center; justify-content: center; text-align: center; padding: 30px; }
+    #rotate div { display: flex; flex-direction: column; gap: 20px; } #rotate b { font: 30px/1.3 var(--px); color: var(--yel); font-weight: normal; } #rotate span { font: 20px/1.5 var(--tiny); color: var(--dim); text-transform: none; }
+  }
+  /* small screens (phones): tighter menus, bigger tap targets */
+  @media (max-height: 560px), (max-width: 700px) {
+    .card { padding: 12px 16px; width: 98vw; max-height: 96vh; margin: 2px; -webkit-overflow-scrolling: touch; }
+    h1 { font-size: 20px; text-shadow: 2px 2px 0 #6b3a00, 4px 4px 0 #000; margin-bottom: 2px; }
+    h1 .tag { font-size: 10px; padding: 2px 6px; }
+    .head { margin-bottom: 8px; }
+    .sub { font-size: 10px; margin: 2px 0 8px; }
+    .picks { gap: 8px 16px; }
+    .picks label { font-size: 10px; gap: 4px; }
+    select { font-size: 20px; padding: 6px 34px 6px 10px; min-height: 44px; }
+    .keys { margin-top: 10px; padding: 8px 12px; font: 10px/2 var(--tiny); }
+    .keys kbd { font-size: 10px; } .krow b { width: 70px; }
+    .settings { grid-template-columns: repeat(2, auto); gap: 8px 20px; padding: 8px 12px; font-size: 10px; }
+    .settings select { font-size: 10px; min-height: 32px; }
+    .actions { margin-top: 12px; gap: 14px; }
+    button { min-height: 44px; }
+    table { font-size: 10px; } td, th { padding: 3px 6px; }
+    #subTable td, #subTable th, #statTable td, #statTable th { font-size: 10px; padding: 2px 6px; }
+    #subTable select { font-size: 10px; min-height: 30px; }
+    #coach h2 { margin: 8px 0 4px; } #coach .note, #coach .auto { font-size: 10px; }
+    .seats { gap: 10px 14px; margin-top: 10px; } .seats .side { padding: 8px 10px; gap: 6px; }
+    .picklist select, .sublab select { font-size: 10px; min-height: 34px; } .sublab { font-size: 10px; }
+    .big { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+<div id="stage"><canvas id="game" width="1200" height="804"></canvas></div>
+
+<div class="overlay" id="menu">
+  <div class="card">
+    <div class="head"><h1>Mini2K <span class="tag">Mobile</span></h1><a href="roster.html">Rosters and ratings</a></div>
+    <div class="picks">
+      <label for="selUser">Your team<select id="selUser"></select></label>
+      <label for="selOpp">Opponent<select id="selOpp"></select></label>
+      <label for="selQ">Quarter length
+        <select id="selQ"><option value="2">2 minutes</option><option value="5">5 minutes</option><option value="6">6 minutes</option><option value="8">8 minutes</option><option value="12" selected>12 minutes</option></select></label>
+      <label for="selDiff">Difficulty
+        <select id="selDiff"><option value="easy">Super Easy</option><option value="rookie">Rookie</option><option value="pro" selected>Pro</option><option value="allstar">All-Star</option></select></label>
+    </div>
+    <div class="actions"><button id="btnStart">Tip Off Now</button><button class="ghost" id="btnStreetCpu">StreetBall vs CPU</button><button class="ghost" id="btnDemo">Watch CPU vs CPU</button><button class="ghost btnFull">Fullscreen</button></div>
+    <details class="more" open><summary>Touch controls</summary><div class="keys">
+      <div class="krow"><b>Move</b><div><span>Left thumb anywhere on the left half: joystick (push past the ring to sprint)</span></div></div>
+      <div class="krow"><b>Offense</b><div><span><kbd>SHOOT</kbd> hold, let go to shoot (quick tap: pump fake)</span><span><kbd>PASS</kbd></span><span><kbd>MOVE</kbd> dribble move (hold <kbd>SPRINT</kbd>: blow-by)</span><span><kbd>SPIN</kbd></span><span><kbd>LOB</kbd> alley-oop</span><span><kbd>PICK</kbd> pick and roll</span></div></div>
+      <div class="krow"><b>Defense</b><div><span><kbd>BLOCK</kbd> hold: hands up, rebound</span><span><kbd>STEAL</kbd></span><span><kbd>SWITCH</kbd> player</span><span><kbd>DOUBLE</kbd> team</span></div></div>
+      <div class="krow"><b>Game</b><div><span><kbd>II</kbd> pause and subs</span><span><kbd>TO</kbd> timeout</span></div></div>
+    </div>
+    </details>
+    <details class="more"><summary>Settings</summary>
+    <div class="settings">
+      <label>View <select class="setView"><option value="broadcast">Broadcast</option><option value="classic">Classic</option></select></label>
+      <label>Pixel scale <select class="setScale"><option value="auto">Auto</option><option value="1">1x</option><option value="2">2x</option><option value="3">3x</option><option value="4">4x</option></select></label>
+      <label>Zoom <select class="setZoom"><option value="1">100%</option><option value="1.15">115%</option><option value="1.3">130%</option></select></label>
+      <label>Volume <select class="setVolume"><option value="0.3">Low</option><option value="0.6">Medium</option><option value="1">High</option></select></label>
+      <label>Sound <input type="checkbox" class="setAudio"></label>
+      <label>Crowd <input type="checkbox" class="setCrowd"></label>
+      <label>Controls <input type="checkbox" class="setHints"></label>
+      <label>FPS <input type="checkbox" class="setFps"></label>
+    </div>
+    </details>
+  </div>
+</div>
+
+<div class="overlay" id="pause" hidden>
+  <div class="card">
+    <h1 id="pauseTitle">Paused</h1>
+    <p class="sub" id="pauseSub">Tap Resume to keep playing.</p>
+    <div id="coach" hidden>
+      <h2>Coach</h2>
+      <div class="actions left" id="timeoutRow"><button id="btnTimeout">Call timeout</button><span class="note" id="timeoutNote"></span></div>
+      <table id="subTable"></table>
+      <label class="auto"><input type="checkbox" id="autoSubs"> Auto substitutions (the CPU coach manages your bench)</label>
+      <p class="note" id="subNote">Pick a bench player next to anyone on the floor. The change happens at the next dead ball.</p>
+      <h2>Player stats</h2>
+      <table id="statTable"></table>
+    </div>
+    <div class="settings">
+      <label>View <select class="setView"><option value="broadcast">Broadcast</option><option value="classic">Classic</option></select></label>
+      <label>Pixel scale <select class="setScale"><option value="auto">Auto</option><option value="1">1x</option><option value="2">2x</option><option value="3">3x</option><option value="4">4x</option></select></label>
+      <label>Zoom <select class="setZoom"><option value="1">100%</option><option value="1.15">115%</option><option value="1.3">130%</option></select></label>
+      <label>Volume <select class="setVolume"><option value="0.3">Low</option><option value="0.6">Medium</option><option value="1">High</option></select></label>
+      <label>Sound <input type="checkbox" class="setAudio"></label>
+      <label>Crowd <input type="checkbox" class="setCrowd"></label>
+      <label>Controls <input type="checkbox" class="setHints"></label>
+      <label>FPS <input type="checkbox" class="setFps"></label>
+    </div>
+    <div class="actions"><button id="btnResume">Resume</button><button class="ghost btnFull">Fullscreen</button><button class="ghost" id="btnQuit">Quit to menu</button></div>
+  </div>
+</div>
+
+<div class="overlay online" id="streetSetup" hidden>
+  <div class="card">
+    <div class="head"><h1>StreetBall 3on3 <span class="tag">vs CPU</span></h1></div>
+    <p class="sub">Pick any three players in the league for your squad and three for the CPU. The team only picks the jerseys. First to 21 by 1s and 2s, win by two, no fouls.</p>
+    <div class="seats">
+      <div class="side"><h2>Your squad</h2><label class="sublab">Jerseys<select id="stTeamHome"></select></label><div class="picklist" id="stPicksHome"></div><button class="ghost" id="stRandHome">Random three</button></div>
+      <div class="side"><h2>CPU squad</h2><label class="sublab">Jerseys<select id="stTeamAway"></select></label><div class="picklist" id="stPicksAway"></div><button class="ghost" id="stRandAway">Random three</button></div>
+    </div>
+    <label class="sublab" for="stMitt">After a make<select id="stMitt"><option value="0" selected>Other team's ball (usual)</option><option value="1">Make-it take-it: the scorer keeps it</option></select></label>
+    <div class="status" id="stStatus"></div>
+    <div class="actions"><button id="btnStGo">Check ball</button><button class="ghost" id="btnStBack">Back</button><button class="ghost btnFull">Fullscreen</button></div>
+  </div>
+</div>
+
+
+<div class="overlay" id="final" hidden>
+  <div class="card" style="width:min(760px,92vw)">
+    <h1>Final</h1>
+    <div class="big" id="finalScore"></div>
+    <table id="finalTable"></table>
+    <div class="actions"><button id="btnAgain">Play again</button></div>
+  </div>
+</div>
+
+<div id="touch" hidden></div>
+<div id="rotate"><div><b>Turn your phone sideways</b><span>Mini2K plays in landscape.</span></div></div>
+<div id="err"></div>
+<script type="module" src="main.js"></script>
+</body>
+</html>

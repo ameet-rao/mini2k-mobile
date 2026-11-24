@@ -1,0 +1,52 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Rosters and ratings</title>
+<style>
+  /* same pixel fonts as the game menus (built by src/ui/pixelfont.js) */
+  :root { color-scheme: dark; --px: "Mini2K Pixel", ui-monospace, monospace; --tiny: "Mini2K Tiny", "Mini2K Pixel", ui-monospace, monospace; }
+  body { font: 20px/1.5 var(--tiny); background: #07090c; color: #e8ecf1; margin: 0; padding: 24px; text-transform: uppercase; -webkit-font-smoothing: none; }
+  html:not(.px-ready) body { visibility: hidden; }
+  h2 { font: 40px/1.2 var(--px); color: #ffd84a; text-shadow: 4px 4px 0 #6b3a00, 8px 8px 0 #000; margin: 0 0 22px; display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+  h2 small { font: 20px var(--tiny); text-shadow: none; }
+  a { color: #8cc8ff; text-decoration: none; border-bottom: 2px solid #3b6b9c; }
+  .tabs { display: flex; flex-wrap: wrap; gap: 16px; padding: 4px; }
+  .tabs button { font: 20px/1.4 var(--px); text-transform: uppercase; padding: 6px 12px 8px; border: 0; border-radius: 0; cursor: pointer; position: relative;
+    box-shadow: 0 -4px 0 0 #000, 0 4px 0 0 #000, -4px 0 0 0 #000, 4px 0 0 0 #000, inset 0 4px 0 0 rgba(255,255,255,.25), inset 0 -4px 0 0 rgba(0,0,0,.35); }
+  .tabs button:active { top: 2px; }
+  .tabs button.on { outline: 4px solid #ffd84a; outline-offset: 6px; }
+  table { border-collapse: collapse; width: 100%; margin-top: 24px; background: #131a26; box-shadow: 0 -4px 0 0 #000, 0 4px 0 0 #000, -4px 0 0 0 #000, 4px 0 0 0 #000; }
+  td, th { padding: 6px 10px; text-align: right; border-bottom: 2px solid #253247; }
+  th { color: #ffd84a; font-weight: normal; border-bottom: 4px solid #33435e; }
+  td b { font-weight: normal; color: #fff; }
+  td small { color: #9aa8bc; font-size: 20px; }
+  td:nth-child(1),th:nth-child(1),td:nth-child(2),th:nth-child(2){text-align:left}
+  .out{opacity:.5}
+</style>
+<h2>Rosters and ratings <small><a href="index.html">back to the game</a></small></h2>
+<div class="tabs" id="tabs"></div>
+<table id="t"></table>
+<script type="module">
+import { loadPixelFonts } from './ui/pixelfont.js';
+loadPixelFonts();
+const [pl, tm] = await Promise.all([
+  fetch('../data/players.json').then(r => r.json()),
+  fetch('../data/teams.json').then(r => r.json()),
+]);
+const cols = ['three_pt','finishing','passing','ball_handle','speed','perimeter_def','interior_def','off_rebound','def_rebound','stamina'];
+function show(team) {
+  const T = tm.teams[team];
+  const byId = Object.fromEntries(pl.players.map(p => [p.id, p]));
+  const rows = T.depth_order.map(id => byId[id]);
+  document.getElementById('t').innerHTML =
+    `<tr><th>#</th><th>Player</th><th>Pos</th><th>OVR</th>${cols.map(c=>`<th>${c.replace('_',' ')}</th>`).join('')}</tr>` +
+    rows.map(p => `<tr class="${p.available?'':'out'}"><td>${p.number ?? ''}</td><td>${p.name}${p.available?'':' (inj)'} <small>${p.role}</small></td><td>${p.pos}</td><td><b>${p.overall}</b></td>${cols.map(c=>`<td>${p.attrs[c]}</td>`).join('')}</tr>`).join('');
+}
+const tabs = document.getElementById('tabs');
+for (const k of Object.keys(tm.teams)) {
+  const b = document.createElement('button');
+  b.textContent = `${k} ${tm.teams[k].team_overall}`;
+  b.style.background = tm.teams[k].colors[0]; b.style.color = '#fff';
+  b.onclick = () => { for (const x of tabs.children) x.classList.toggle('on', x === b); show(k); }; tabs.appendChild(b);
+}
+show('PHI'); tabs.children[0]?.classList.add('on');
+</script>
